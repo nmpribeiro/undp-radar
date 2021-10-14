@@ -27,7 +27,6 @@ export const QuadrantRadar: React.FC<Props> = ({ selectedQuadrant }) => {
   const [filtered, setFiltered] = useState<BlipType[]>([]);
 
   useEffect(() => {
-    console.log('blips: ', blips);
     let newFiltered = blips;
     if (useCaseFilter !== 'all')
       newFiltered = newFiltered.filter((i) => i[useCaseKey] === useCaseFilter);
@@ -35,7 +34,6 @@ export const QuadrantRadar: React.FC<Props> = ({ selectedQuadrant }) => {
       newFiltered = newFiltered.filter(
         (i) => i[disasterTypeKey] === disasterTypeFilter
       );
-    console.log('newFiltered: ', newFiltered);
     setFiltered(newFiltered);
   }, [blips]);
 

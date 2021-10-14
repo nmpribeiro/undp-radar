@@ -9,6 +9,7 @@ import { BlipType, QuadrantKey, TechItemType } from '../../types';
 import { RadarUtilities } from '../RadarUtilities';
 
 import { RawBlip } from './RawBlip';
+import { Utilities } from '../../helpers/Utilities';
 
 interface Props {
   quadrant?: QuadrantKey | null;
@@ -68,6 +69,14 @@ export const Blips: React.FC<Props> = ({
     setDisplayBlips(filtered);
   }, [blips, useCaseFilter, disasterTypeFilter, techFilter]);
 
+  const grey = {
+    color: 'rgba(100,100,100,.5)',
+    uuid: v4(),
+    type: '',
+    slug: '',
+    description: ['']
+  };
+
   const fillLogic = (blip: BlipType): TechItemType[] => {
     const allItemTechs: TechItemType[] = [];
     radarData.tech.forEach((radarTech) => {
@@ -78,27 +87,7 @@ export const Blips: React.FC<Props> = ({
     if (selectedItem !== null) {
       if (selectedItem.id === blip.id && allItemTechs.length > 0)
         return allItemTechs;
-      return [
-        {
-          color: 'rgba(100,100,100,.5)',
-          uuid: v4(),
-          type: '',
-          slug: '',
-          description: ['']
-        }
-      ];
-    }
-
-    if (hoveredItem && hoveredItem.id !== blip.id) {
-      return [
-        {
-          color: 'rgba(100,100,100,.5)',
-          uuid: v4(),
-          type: '',
-          slug: '',
-          description: ['']
-        }
-      ];
+      return [grey];
     }
 
     if ((!hoveredItem && techFilter !== 'all') || hoveredItem?.id === blip.id) {
@@ -117,16 +106,7 @@ export const Blips: React.FC<Props> = ({
       }
     }
 
-    // if (allItemTechs.length > 0) return allItemTechs;
-    return [
-      {
-        color: 'rgba(100,100,100,.5)',
-        uuid: v4(),
-        type: '',
-        slug: '',
-        description: ['']
-      }
-    ];
+    return [grey];
   };
 
   const getFill = (blip: BlipType, index: number) => {
