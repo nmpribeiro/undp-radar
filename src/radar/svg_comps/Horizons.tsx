@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { Utilities } from '../../helpers/Utilities';
-import { RadarUtilities } from '../utilities/RadarUtilities';
+import { RadarUtilities } from '../RadarUtilities';
 import { QuadrantKey, QuadsType, RadarDataBlipsAndLogic } from '../../types';
 
 import { Blips } from './Blips';

@@ -6,6 +6,7 @@ import { QuadrantRadar } from './radar/QuadrantRadar';
 import { RadarDataGenerator, AddCSV, SetData } from './services';
 // Components
 import { Filter } from './components/filter/Filter';
+import { BlipPage } from './components/blip/BlipPage';
 import { DataLists } from './components/lists/DataLists';
 import { SelectionState } from './components/shared/SelectionState';
 import { TechList, TechOrBlipDescription } from './components/tech';
@@ -29,5 +30,6 @@ export {
   Filter,
   // components > tech
   TechList,
-  TechOrBlipDescription
+  TechOrBlipDescription,
+  BlipPage
 };

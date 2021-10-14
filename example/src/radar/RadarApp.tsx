@@ -6,7 +6,8 @@ import {
   DataLists,
   TechList,
   Filter,
-  TechOrBlipDescription
+  TechOrBlipDescription,
+  BlipPage
 } from 'undp-radar';
 
 import { Layout } from '../layout/Layout';
@@ -14,8 +15,6 @@ import { LeftColumn } from '../layout/LeftColumn';
 import { RightColumn } from '../layout/RightColumn';
 import { CenterColumn } from '../layout/CenterColumn';
 import { QuadrantPage } from '../components/quadrant/QuadrantPage';
-
-const BlipPage = () => <div>BlipPage</div>;
 
 export const RadarApp: React.FC = () => (
   <SelectionState>
@@ -44,8 +43,8 @@ export const RadarApp: React.FC = () => (
               </RightColumn>
             </Layout>
           )}
-          {!selectedQuadrant && selectedItem && <BlipPage />}
-          {selectedQuadrant && <QuadrantPage />}
+          {selectedItem && <BlipPage />}
+          {!selectedItem && selectedQuadrant && <QuadrantPage />}
         </div>
       </React.Fragment>
     )}

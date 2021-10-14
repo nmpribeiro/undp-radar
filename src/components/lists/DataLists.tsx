@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Title } from '../shared/Title';
 import { Utilities } from '../../helpers/Utilities';
 import { ScrollableDiv } from '../shared/ScrollableDiv';
-import { RadarUtilities } from '../../radar/utilities/RadarUtilities';
+import { RadarUtilities } from '../../radar/RadarUtilities';
 import { useDataState } from '../../stores/DataProvider';
 import { useRadarState } from '../../stores/RadarProvider';
 

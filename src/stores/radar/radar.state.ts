@@ -8,8 +8,8 @@ import {
   RadarOptionsType,
   RawBlipType
 } from '../../types';
-import { CSVManager, getCSVFileFromUrl } from '../../services/CSVManager';
 import { Utilities } from '../../helpers/Utilities';
+import { CSVManager } from '../../services/CSVManager';
 
 export enum ActionType {
   SET_BLIPS = 'RADAR/SET_BLIPS',
@@ -171,7 +171,7 @@ type FetchRadarDataThunk = (
 const fetchRadarBlips: FetchRadarDataThunk =
   (content, mapping) =>
   async (dispatch): Promise<void> => {
-    const radarCSV = await getCSVFileFromUrl(content);
+    const radarCSV = await Utilities.getCSVFileFromUrl(content);
     const rawBlips = new CSVManager(radarCSV).processCSV<BaseCSVType>();
     const cleanedRawBlips = Utilities.cleanRawBlips(rawBlips, mapping);
     dispatch(setRawBlips(cleanedRawBlips));

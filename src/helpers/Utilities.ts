@@ -1,4 +1,9 @@
+import { RequestBuilder } from 'ts-request-builder';
+
 import { BaseCSVType, BlipType, MappingType, TechKey } from '../types';
+
+const getCSVFileFromUrl = async (url: string): Promise<string> =>
+  new RequestBuilder(url).build<string>();
 
 // taken from https://gist.github.com/codeguy/6684588
 const createSlug = (str: string, separator = '-'): string =>
@@ -39,6 +44,7 @@ export const Utilities = {
   capitalize,
   createSlug,
   cleanRawBlips,
+  getCSVFileFromUrl,
   cleanupStringArray,
   checkItemHasTechFromMultiple
 };

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useDataState } from '../stores/DataProvider';
 import { useRadarState } from '../stores/RadarProvider';
-import { RadarUtilities } from '../radar/utilities/RadarUtilities';
+import { RadarUtilities } from '../radar/RadarUtilities';
 
 export const RadarDataGenerator: React.FC = () => {
   const {

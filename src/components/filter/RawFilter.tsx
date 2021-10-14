@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react';
 
-import { RadarUtilities } from '../../radar/utilities/RadarUtilities';
+import { RadarUtilities } from '../../radar/RadarUtilities';
 import { useDataState } from '../../stores/DataProvider';
 import { useRadarState } from '../../stores/RadarProvider';
 import { SelectableItem } from '../../types';

@@ -6,6 +6,11 @@ export type QuadsType = {
   label: QuadrantKey;
 };
 
+export type PriorityType = {
+  horizon: PriorityOrderType;
+  quadrant: PriorityOrderType;
+};
+
 export type KeysObject = {
   techKey: TechKey;
   titleKey: TitleKey;

@@ -1,11 +1,6 @@
-import { RequestBuilder } from 'ts-request-builder';
-
 import { BaseCSVType } from '../types';
 
 // USDAGE:
-
-export const getCSVFileFromUrl = async (url: string): Promise<string> =>
-  new RequestBuilder(url).build<string>();
 
 export class CSVManager {
   content: string;

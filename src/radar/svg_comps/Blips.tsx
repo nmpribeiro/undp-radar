@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { useRadarState } from '../../stores/RadarProvider';
 import { useDataState } from '../../stores/DataProvider';
 import { BlipType, QuadrantKey, TechItemType } from '../../types';
-import { RadarUtilities } from '../utilities/RadarUtilities';
+import { RadarUtilities } from '../RadarUtilities';
 
 import { RawBlip } from './RawBlip';
 

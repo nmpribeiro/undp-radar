@@ -10,7 +10,10 @@ import './QuadrantPage.scss';
 
 export const QuadrantPage: React.FC = () => (
   <SelectionState>
-    {({ selectedQuadrant, logic: { setSelectedQuadrant } }) => (
+    {({
+      selectedQuadrant,
+      logic: { setSelectedQuadrant, setSelectedItem }
+    }) => (
       <div className='App'>
         {selectedQuadrant && (
           <Layout>
@@ -18,7 +21,10 @@ export const QuadrantPage: React.FC = () => (
               <div style={{ position: 'absolute', top: 20, left: 0 }}>
                 <button
                   type='button'
-                  onClick={() => setSelectedQuadrant(null)}
+                  onClick={() => {
+                    setSelectedQuadrant(null);
+                    setSelectedItem(null);
+                  }}
                   className={'radar-button'}
                 >
                   <span style={{ fontSize: 30 }}>&#10094;</span>

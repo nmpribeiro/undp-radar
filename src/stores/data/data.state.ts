@@ -5,7 +5,7 @@ import {
   DisasterTypeKey,
   HorizonKey,
   KeysObject,
-  PriorityOrderType,
+  PriorityType,
   QuadrantKey,
   RadarOptionsType,
   TechKey,
@@ -14,18 +14,8 @@ import {
 } from '../../types';
 
 export interface DataState {
-  keys: {
-    techKey: TechKey;
-    useCaseKey: UseCaseKey;
-    disasterTypeKey: DisasterTypeKey;
-    titleKey: TitleKey;
-    horizonKey: HorizonKey;
-    quadrantKey: QuadrantKey;
-  };
-  priorityOrders: {
-    horizon: PriorityOrderType;
-    quadrant: PriorityOrderType;
-  };
+  keys: KeysObject;
+  priorityOrders: PriorityType;
   radarOptions: RadarOptionsType;
 }
 

@@ -5,7 +5,7 @@ import { TechItemType } from '../../types';
 import { ScrollableDiv } from '../shared/ScrollableDiv';
 import { useDataState } from '../../stores/DataProvider';
 import { useRadarState } from '../../stores/RadarProvider';
-import { RadarUtilities } from '../../radar/utilities/RadarUtilities';
+import { RadarUtilities } from '../../radar/RadarUtilities';
 
 import { TechItem } from './TechItem';
 import './TechList.scss';
