@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { v4 as uuidv4 } from 'uuid';
 import * as d3 from 'd3';
 // Lorem Ipsum from https://fatihtelis.github.io/react-lorem-ipsum/
@@ -145,11 +147,12 @@ const processBlips = (
     }
     // not using a 'nearest grid item' and falling back to previous random ones will allow less overlap
     results.push({
+      ...blip,
       id: uuidv4(),
       quadrantIndex,
       x: item?.x || x,
       y: item?.y || y
-    });
+    } as BlipType);
   });
 
   return results;

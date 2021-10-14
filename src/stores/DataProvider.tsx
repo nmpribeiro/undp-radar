@@ -12,6 +12,8 @@ const useDataState = dataState.useContext(
     reset: () => actions.reset()
   },
   {
+    setKeys: actions.setKeys,
+    setRadarConf: actions.setRadarConf
     // testAsync: () => testAsync(10),
   }
 );

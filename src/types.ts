@@ -6,6 +6,15 @@ export type QuadsType = {
   label: QuadrantKey;
 };
 
+export type KeysObject = {
+  techKey: TechKey;
+  titleKey: TitleKey;
+  horizonKey: HorizonKey;
+  quadrantKey: QuadrantKey;
+  useCaseKey: UseCaseKey;
+  disasterTypeKey: DisasterTypeKey;
+};
+
 export type RgbOut = string | number | boolean | null;
 
 export type BaseCSVType = { [x: string]: string };
@@ -33,7 +42,7 @@ export type BlipType = {
   quadrantIndex: number;
   x: number;
   y: number;
-};
+} & RawBlipType;
 
 export type PriorityOrderType = { [key: string]: number };
 

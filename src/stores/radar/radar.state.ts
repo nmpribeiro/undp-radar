@@ -169,11 +169,11 @@ type FetchRadarDataThunk = (
   mapping: MappingType<RawBlipType>
 ) => RadarThunks<void>;
 const fetchRadarBlips: FetchRadarDataThunk =
-  (content, mapping) => async (dispatch) => {
+  (content, mapping) =>
+  async (dispatch): Promise<void> => {
     const radarCSV = await getCSVFileFromUrl(content);
     const rawBlips = new CSVManager(radarCSV).processCSV<BaseCSVType>();
     const cleanedRawBlips = Utilities.cleanRawBlips(rawBlips, mapping);
-    setRawBlips(cleanedRawBlips);
     dispatch(setRawBlips(cleanedRawBlips));
   };
 

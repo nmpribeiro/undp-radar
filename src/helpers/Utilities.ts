@@ -11,14 +11,19 @@ const createSlug = (str: string, separator = '-'): string =>
     .replace(/[^a-z0-9 ]/g, '') // remove all chars not letters, numbers and spaces (to be replaced)
     .replace(/\s+/g, separator);
 
-const cleanupStringArray = (arr: string[]): string[] => arr.map((t) => t.trim());
+const cleanupStringArray = (arr: string[]): string[] =>
+  arr.map((t) => t.trim());
 
-const cleanRawBlips = <T>(rawBlips: BaseCSVType[], mapping: MappingType<T>): T[] => {
-  console.log(rawBlips, mapping);
-  return [...(rawBlips || [])].map(mapping);
-};
+const cleanRawBlips = <T>(
+  rawBlips: BaseCSVType[],
+  mapping: MappingType<T>
+): T[] => [...(rawBlips || [])].map(mapping);
 
-const checkItemHasTechFromMultiple = (item: BlipType | null, tech: string, techKey: TechKey): boolean => {
+const checkItemHasTechFromMultiple = (
+  item: BlipType | null,
+  tech: string,
+  techKey: TechKey
+): boolean => {
   if (item === null) return false;
   // check if techFilter was selected
   const sluggedTechs: string[] = [];
@@ -31,5 +36,5 @@ export const Utilities = {
   createSlug,
   cleanRawBlips,
   cleanupStringArray,
-  checkItemHasTechFromMultiple,
+  checkItemHasTechFromMultiple
 };

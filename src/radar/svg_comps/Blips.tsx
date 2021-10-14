@@ -1,105 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { v4 } from 'uuid';
 
 import { useRadarState } from '../../stores/RadarProvider';
 import { useDataState } from '../../stores/DataProvider';
-import { BlipType, QuadrantKey, TechItemType, TechKey } from '../../types';
+import { BlipType, QuadrantKey, TechItemType } from '../../types';
 import { RadarUtilities } from '../utilities/RadarUtilities';
 
-import './Blips.scss';
-
-const RawBlip: React.FC<{
-  blip: BlipType;
-  blipSize?: number;
-  scaleFactor?: number;
-  hoveredItem: BlipType | null;
-  selectedItem: BlipType | null;
-  getFill: (blip: BlipType, index: number) => string;
-  setHoveredItem: (blip: BlipType | null) => void;
-  setSelectedItem: (blip: BlipType | null) => void;
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, d3.BaseType>;
-  techKey: TechKey;
-}> = ({
-  blip,
-  blipSize = 1,
-  scaleFactor = 1,
-  hoveredItem,
-  selectedItem,
-  getFill,
-  setHoveredItem,
-  setSelectedItem,
-  tooltip,
-  techKey
-}) => {
-  const openToolTip = () => {
-    tooltip.attr('display', 'initial');
-    tooltip.transition().duration(200).style('opacity', 0.9);
-  };
-  const closeTooltip = () => {
-    setHoveredItem(null);
-    tooltip
-      .transition()
-      .duration(250)
-      .style('opacity', 0)
-      .end()
-      .then(() => tooltip.attr('display', 'none'))
-      .catch(() => {}); // no need to act
-  };
-  return (
-    <g
-      key={blip.id}
-      className='blip'
-      id={`blip-${blip.id}`}
-      transform={`translate(${blip.x * scaleFactor}, ${blip.y * scaleFactor})`}
-      cursor='pointer'
-      onMouseOver={(event) => {
-        openToolTip();
-        tooltip
-          .html(`<h4>${blip[techKey]}</h4>`)
-          .style('left', `${event.pageX + 15}px`)
-          .style('top', `${event.pageY - 10}px`);
-        event.currentTarget.setAttribute('opacity', '0.5');
-      }}
-      onMouseMove={(event) =>
-        tooltip
-          .style('left', `${event.pageX + 15}px`)
-          .style('top', `${event.pageY - 10}px`)
-      }
-      onMouseOut={(event) => {
-        closeTooltip();
-        event.currentTarget.setAttribute('opacity', '1');
-      }}
-      onMouseEnter={() => setHoveredItem(blip)}
-      onMouseUp={() => {
-        if (selectedItem && selectedItem.id === blip.id) setSelectedItem(null);
-        else setSelectedItem(blip);
-        closeTooltip();
-      }}
-    >
-      <circle className='circle' r={6 * blipSize} fill={getFill(blip, 0)} />
-      {/* https://codepen.io/riccardoscalco/pen/GZzZRz */}
-      <circle
-        className={`circle ${
-          hoveredItem?.id === blip.id ? 'circle-pulse1' : ''
-        }`}
-        r={8 * blipSize}
-        strokeWidth={1.5 * blipSize}
-        stroke={getFill(blip, 1)}
-        fill='none'
-      />
-      <circle
-        className={`circle ${
-          hoveredItem?.id === blip.id ? 'circle-pulse2' : ''
-        }`}
-        r={11 * blipSize}
-        strokeWidth={0.5 * blipSize}
-        stroke={getFill(blip, 2)}
-        fill='transparent'
-      />
-    </g>
-  );
-};
+import { RawBlip } from './RawBlip';
 
 interface Props {
   quadrant?: QuadrantKey | null;
@@ -151,7 +60,7 @@ export const Blips: React.FC<Props> = ({
       const tech = radarData.tech.find((t) => t.slug === techFilter);
       if (techFilter && tech)
         filtered = filtered.filter((i) => {
-          const itemTechs = i[techKey] as string[];
+          const itemTechs = (i[techKey] as string[]) || [];
           return itemTechs.includes(tech.type);
         });
     }
@@ -162,7 +71,7 @@ export const Blips: React.FC<Props> = ({
   const fillLogic = (blip: BlipType): TechItemType[] => {
     const allItemTechs: TechItemType[] = [];
     radarData.tech.forEach((radarTech) => {
-      const itemTechs = blip[techKey] as string[];
+      const itemTechs = (blip[techKey] as string[]) || [];
       if (itemTechs.includes(radarTech.type)) allItemTechs.push(radarTech);
     });
 
@@ -235,7 +144,8 @@ export const Blips: React.FC<Props> = ({
       .select('body')
       .append('div')
       .attr('id', RADAR_TOOLTIP_ID)
-      .style('opacity', 0);
+      .style('opacity', 0)
+      .style('position', 'absolute');
   }
 
   return (
@@ -252,7 +162,7 @@ export const Blips: React.FC<Props> = ({
           hoveredItem={hoveredItem}
           setHoveredItem={setHoveredItem}
           setSelectedItem={setSelectedItem}
-          techKey={techKey}
+          titleKey={titleKey}
         />
       ))}
     </React.Fragment>

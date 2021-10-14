@@ -20,7 +20,7 @@ export const RADAR_OPTIONS: RadarOptionsType = {
   radarOptions: {
     horizonShiftRadius: HORIZON_SHIFT_RADIUS,
     radiusPadding: RADIUS_PADDING,
-    circlePadding: CIRCLE_PADDING,
+    circlePadding: CIRCLE_PADDING
   },
-  tech: [],
+  tech: []
 };
