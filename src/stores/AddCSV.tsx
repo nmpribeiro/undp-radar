@@ -16,5 +16,5 @@ export const AddCSV: React.FC<Props> = ({ csvFile, mapping }) => {
     fetchRadarBlips(csvFile, mapping);
   }, [csvFile]);
 
-  return <></>;
+  return <React.Fragment />;
 };

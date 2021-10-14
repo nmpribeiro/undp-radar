@@ -1,26 +1,25 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-plusplus */
 import { RequestBuilder } from 'ts-request-builder';
 
 import { BaseCSVType } from '../types';
 
 // USDAGE:
 
-export const getCSVFileFromUrl = async (url: string): Promise<string> => new RequestBuilder(url).build<string>();
+export const getCSVFileFromUrl = async (url: string): Promise<string> =>
+  new RequestBuilder(url).build<string>();
 
 export class CSVManager {
   content: string;
 
-  new_line_char = '\n';
+  newLineChar = '\n';
 
-  field_separator_char = ',';
+  fieldSeparatorChar = ',';
 
   constructor(file: string) {
     this.content = file;
   }
 
   public processCSV = <T extends BaseCSVType>(delim = ','): T[] => {
-    this.field_separator_char = delim;
+    this.fieldSeparatorChar = delim;
 
     const result: T[] = [];
     const headers: string[] = [];
@@ -42,108 +41,114 @@ export class CSVManager {
   };
 
   processRawData(): string[][] {
-    let csv_str = this.content;
+    let csvStr = this.content;
     let result: string[][] = [];
 
-    let line_end_index_moved = false;
-    let line_start_index = 0;
-    let line_end_index = 0;
-    let csr_index = 0;
-    let cursor_val = csv_str[csr_index];
-    const found_new_line_char = CSVManager.get_new_line_char(csv_str);
-    let in_quote = false;
+    let lineEndIndexMoved = false;
+    let lineStartIndex = 0;
+    let lineEndIndex = 0;
+    let csrIndex = 0;
+    let cursorVal = csvStr[csrIndex];
+    const foundNewLineChar = CSVManager.getNewLineChar(csvStr);
+    let inQuote = false;
 
     // Handle
 
-    if (found_new_line_char === '\n') {
-      csv_str = csv_str.split(found_new_line_char).join(this.new_line_char);
+    if (foundNewLineChar === '\n') {
+      csvStr = csvStr.split(foundNewLineChar).join(this.newLineChar);
     }
     // Handle the last character is not
 
-    if (csv_str[csv_str.length - 1] !== this.new_line_char) {
-      csv_str += this.new_line_char;
+    if (csvStr[csvStr.length - 1] !== this.newLineChar) {
+      csvStr += this.newLineChar;
     }
 
-    while (csr_index < csv_str.length) {
-      if (cursor_val === '"') {
-        in_quote = !in_quote;
-      } else if (cursor_val === this.new_line_char) {
-        if (in_quote === false) {
-          if (line_end_index_moved && line_start_index <= line_end_index) {
-            result.push(this.parse_csv_line(csv_str.substring(line_start_index, line_end_index)));
-            line_start_index = csr_index + 1;
+    while (csrIndex < csvStr.length) {
+      if (cursorVal === '"') {
+        inQuote = !inQuote;
+      } else if (cursorVal === this.newLineChar) {
+        if (inQuote === false) {
+          if (lineEndIndexMoved && lineStartIndex <= lineEndIndex) {
+            result.push(
+              this.parseCsvLine(csvStr.substring(lineStartIndex, lineEndIndex))
+            );
+            lineStartIndex = csrIndex + 1;
           } // Else: just ignore line_end_index has not moved or line has not been sliced for parsing the line
         } // Else: just ignore because we are in a quote
       }
-      csr_index++;
-      cursor_val = csv_str[csr_index];
-      line_end_index = csr_index;
-      line_end_index_moved = true;
+      csrIndex++;
+      cursorVal = csvStr[csrIndex];
+      lineEndIndex = csrIndex;
+      lineEndIndexMoved = true;
     }
 
     // Handle
 
-    if (found_new_line_char === '\n') {
-      const new_result = [];
-      let curr_row;
+    if (foundNewLineChar === '\n') {
+      const newResult = [];
+      let currRow;
       for (let i = 0; i < result.length; i++) {
-        curr_row = [];
+        currRow = [];
         for (let j = 0; j < result[i].length; j++) {
-          curr_row.push(result[i][j].split(this.new_line_char).join('\n'));
+          currRow.push(result[i][j].split(this.newLineChar).join('\n'));
         }
-        new_result.push(curr_row);
+        newResult.push(currRow);
       }
-      result = new_result;
+      result = newResult;
     }
     return result;
   }
 
-  parse_csv_line(csv_line_str_arg: string): string[] {
-    let csv_line_str = csv_line_str_arg;
+  parseCsvLine(csvLineStrArg: string): string[] {
+    let csvLineStr = csvLineStrArg;
     const result = [];
 
     // let field_end_index_moved = false;
-    let field_start_index = 0;
-    let field_end_index = 0;
-    let csr_index = 0;
-    let cursor_val = csv_line_str[csr_index];
-    let in_quote = false;
+    let fieldStartIndex = 0;
+    let fieldEndIndex = 0;
+    let csrIndex = 0;
+    let cursorVal = csvLineStr[csrIndex];
+    let inQuote = false;
 
     // Pretend that the last char is the separator_char to complete the loop
-    csv_line_str += this.field_separator_char;
+    csvLineStr += this.fieldSeparatorChar;
 
-    while (csr_index < csv_line_str.length) {
-      if (cursor_val === '"') {
-        in_quote = !in_quote;
-      } else if (cursor_val === this.field_separator_char) {
-        if (in_quote === false) {
-          if (field_start_index <= field_end_index) {
-            result.push(CSVManager.parse_csv_field(csv_line_str.substring(field_start_index, field_end_index)));
-            field_start_index = csr_index + 1;
+    while (csrIndex < csvLineStr.length) {
+      if (cursorVal === '"') {
+        inQuote = !inQuote;
+      } else if (cursorVal === this.fieldSeparatorChar) {
+        if (inQuote === false) {
+          if (fieldStartIndex <= fieldEndIndex) {
+            result.push(
+              CSVManager.parseCsvField(
+                csvLineStr.substring(fieldStartIndex, fieldEndIndex)
+              )
+            );
+            fieldStartIndex = csrIndex + 1;
           } // Else: just ignore field_end_index has not moved or field has not been sliced for parsing the field
         } // Else: just ignore because we are in quote
       }
-      csr_index++;
-      cursor_val = csv_line_str[csr_index];
-      field_end_index = csr_index;
+      csrIndex++;
+      cursorVal = csvLineStr[csrIndex];
+      fieldEndIndex = csrIndex;
       // field_end_index_moved = true;
     }
     return result;
   }
 
-  static parse_csv_field(csv_field_str_arg: string): string {
-    let csv_field_str = csv_field_str_arg;
-    const with_quote = csv_field_str[0] === '"';
+  static parseCsvField(csvFieldStrArg: string): string {
+    let csvFieldStr = csvFieldStrArg;
+    const withQuote = csvFieldStr[0] === '"';
 
-    if (with_quote) {
-      csv_field_str = csv_field_str.substring(1, csv_field_str.length - 1); // remove the start and end quotes
-      csv_field_str = csv_field_str.split('""').join('"'); // handle double quotes
+    if (withQuote) {
+      csvFieldStr = csvFieldStr.substring(1, csvFieldStr.length - 1); // remove the start and end quotes
+      csvFieldStr = csvFieldStr.split('""').join('"'); // handle double quotes
     }
-    return csv_field_str.replace(/^\s+|\s+$/g, '');
+    return csvFieldStr.replace(/^\s+|\s+$/g, '');
   }
 
-  static get_new_line_char(csv_str: string): string {
-    if (csv_str.indexOf('\n') > -1) {
+  static getNewLineChar(csvStr: string): string {
+    if (csvStr.indexOf('\n') > -1) {
       return '\n';
     }
     return '\n';

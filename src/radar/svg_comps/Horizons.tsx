@@ -106,7 +106,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
 
   if (quadrant) {
     return (
-      <>
+      <React.Fragment>
         <g transform={`translate(${getX()}, ${getY()})`}>
           {quads.map((h, i) => (
             <React.Fragment key={`${h.label}-${h.quadrant}-${h.horizon}`}>
@@ -146,13 +146,13 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
             <Blips quadrant={quadrant} scaleFactor={SCALE_FAC} blipSize={0.8} />
           </g>
         </g>
-      </>
+      </React.Fragment>
     );
   }
 
   const quadAngle = (2 * Math.PI) / quadrants.length;
   return (
-    <>
+    <React.Fragment>
       <g className='quadrants'>
         {quadrants.map((q, i) => (
           <line
@@ -237,6 +237,6 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
       <g className='blips'>
         <Blips quadrant={quadrant} blipSize={0.6} />
       </g>
-    </>
+    </React.Fragment>
   );
 };

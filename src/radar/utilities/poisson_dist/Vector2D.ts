@@ -7,7 +7,14 @@ type Point = { x: number; y: number };
 export class Vector2D {
   id = uuidv4();
 
-  constructor(public x: number, public y: number) {}
+  x: number;
+
+  y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
 
   static random2D(): Vector2D {
     const vec = MathUtils.randomUnitVector();
@@ -15,9 +22,11 @@ export class Vector2D {
   }
 
   // the euclidean distance of the point
-  static distBetween = (p1: Point, p2: Point): number => Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+  static distBetween = (p1: Point, p2: Point): number =>
+    Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
 
-  dist = (p2: Point): number => Math.sqrt((this.x - p2.x) ** 2 + (this.y - p2.y) ** 2);
+  dist = (p2: Point): number =>
+    Math.sqrt((this.x - p2.x) ** 2 + (this.y - p2.y) ** 2);
 
   // set magnitude
   setMag(mag: number): void {

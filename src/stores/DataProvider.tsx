@@ -9,7 +9,7 @@ const useDataState = dataState.useContext(
     // increment: () => increment(1),
     // decrement: () => decrement(1),
     // reset,
-    reset: () => actions.reset(),
+    reset: () => actions.reset()
   },
   {
     // testAsync: () => testAsync(10),
@@ -17,7 +17,9 @@ const useDataState = dataState.useContext(
 );
 
 const DataProvider: React.FC = ({ children }) => (
-  <CountContext.Provider value={dataState.getMemoValueHook()()}>{children}</CountContext.Provider>
+  <CountContext.Provider value={dataState.getMemoValueHook()()}>
+    {children}
+  </CountContext.Provider>
 );
 
 export { DataProvider, useDataState };

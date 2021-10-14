@@ -239,7 +239,7 @@ export const Blips: React.FC<Props> = ({
   }
 
   return (
-    <>
+    <React.Fragment>
       {displayBlips.map((blip) => (
         <RawBlip
           key={`${blip[titleKey]}-${blip.id}`}
@@ -255,6 +255,6 @@ export const Blips: React.FC<Props> = ({
           techKey={techKey}
         />
       ))}
-    </>
+    </React.Fragment>
   );
 };

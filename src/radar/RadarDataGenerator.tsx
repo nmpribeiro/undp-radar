@@ -10,24 +10,25 @@ export const RadarDataGenerator: React.FC = () => {
   const {
     state: { rawBlips, radarData },
     setBlips,
-    setRadarData,
+    setRadarData
   } = useRadarState();
 
   const {
-    state: { keys, priorityOrders },
+    state: { keys, priorityOrders }
   } = useDataState();
 
   useEffect(() => {
     if (rawBlips.length > 0 && radarData) {
-      const { radarData: newRadarData, blips: newBlips } = RadarUtilities.getRadarData(
-        rawBlips,
-        { ...RADAR_OPTIONS },
-        keys,
-        priorityOrders
-      );
+      const { radarData: newRadarData, blips: newBlips } =
+        RadarUtilities.getRadarData(
+          rawBlips,
+          { ...RADAR_OPTIONS },
+          keys,
+          priorityOrders
+        );
       setBlips(newBlips);
       setRadarData({ ...newRadarData });
     }
   }, [rawBlips]);
-  return <></>;
+  return <React.Fragment />;
 };

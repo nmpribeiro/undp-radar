@@ -19,7 +19,7 @@ import {
   SelectableItem,
   TechItemType,
   TechKey,
-  UseCaseKey,
+  UseCaseKey
 } from '../../types';
 import { MAX_TRIES_TO_FIND_SPOT_PER_BLIP } from '../../constants/RadarData';
 
@@ -34,23 +34,35 @@ const blipsSorting = (a: BlipType, b: BlipType): number => {
 };
 
 // TODO: this is to be driven by supplied DATA
-const getTechnologies = (rawBlipData: (RawBlipType | BlipType)[], techKey: TechKey): TechItemType[] => {
+const getTechnologies = (
+  rawBlipData: (RawBlipType | BlipType)[],
+  techKey: TechKey
+): TechItemType[] => {
   const newTechItems: Map<string, TechItemType> = new Map();
   rawBlipData.forEach((val) => {
     const valTechs: string[] = val[techKey] as string[];
     valTechs.forEach((type) => {
       const slug = Utilities.createSlug(type);
       if (!newTechItems.has(slug)) {
-        const color = `#${(0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6)}`;
+        const color = `#${(0x1000000 + Math.random() * 0xffffff)
+          .toString(16)
+          .substr(1, 6)}`;
         const description = ['Description 1', 'Description 2']; //loremIpsum({ p: 2, avgSentencesPerParagraph: 10, avgWordsPerSentence: 8 }); // TODO
-        newTechItems.set(slug, { uuid: uuidv4(), color, type, slug, description });
+        newTechItems.set(slug, {
+          uuid: uuidv4(),
+          color,
+          type,
+          slug,
+          description
+        });
       }
     });
   });
   return Array.from(newTechItems.values());
 };
 
-const randomFromInterval = (min: number, max: number): number => Math.random() * (max - min) + min;
+const randomFromInterval = (min: number, max: number): number =>
+  Math.random() * (max - min) + min;
 
 const processBlips = (
   data: RadarOptionsType,
@@ -63,11 +75,15 @@ const processBlips = (
   const width = data.width || 800;
   const height = data.height || 600;
   const horizonWidth = (0.95 * (width > height ? height : width)) / 2;
-  const horizonUnit = (horizonWidth - data.radarOptions.horizonShiftRadius) / data.horizons.length;
+  const horizonUnit =
+    (horizonWidth - data.radarOptions.horizonShiftRadius) /
+    data.horizons.length;
 
   // we need multiple poissonDists
   const t0 = Date.now();
-  const poissonDist = new PoissonAlgo(data.width, data.height, { distance: 12 });
+  const poissonDist = new PoissonAlgo(data.width, data.height, {
+    distance: 12
+  });
   poissonDist.setup();
   poissonDist.sample(10000);
   const duration = Date.now() - t0;
@@ -79,14 +95,21 @@ const processBlips = (
   rawBlips.forEach((blip) => {
     // get angle
     const quadrantIndex = data.quadrants.indexOf(blip[keys.quadrantKey]) - 1;
-    const minAngle = quadrantIndex * (Math.PI / 2) + data.radarOptions.circlePadding;
-    const maxAngle = quadrantIndex * (Math.PI / 2) + Math.PI / 2 - data.radarOptions.circlePadding;
+    const minAngle =
+      quadrantIndex * (Math.PI / 2) + data.radarOptions.circlePadding;
+    const maxAngle =
+      quadrantIndex * (Math.PI / 2) +
+      Math.PI / 2 -
+      data.radarOptions.circlePadding;
     let angle = randomFromInterval(minAngle, maxAngle);
 
     // get radius
     const horizonIndex = data.horizons.indexOf(blip[keys.horizonKey]) + 1;
 
-    const outerRadius = horizonIndex * horizonUnit + data.radarOptions.horizonShiftRadius - data.radarOptions.radiusPadding;
+    const outerRadius =
+      horizonIndex * horizonUnit +
+      data.radarOptions.horizonShiftRadius -
+      data.radarOptions.radiusPadding;
     const innerRadius =
       horizonIndex === 1
         ? data.radarOptions.radiusPadding
@@ -103,14 +126,17 @@ const processBlips = (
     while (item === null) {
       if (counter > MAX_TRIES_TO_FIND_SPOT_PER_BLIP) {
         // eslint-disable-next-line no-console
-        console.log(`Item failed to find spot at iteration ${counter} - it might overlap.`);
+        console.log(
+          `Item failed to find spot at iteration ${counter} - it might overlap.`
+        );
         break;
       }
       angle = randomFromInterval(minAngle, maxAngle);
       radius = randomFromInterval(innerRadius, outerRadius);
       const newX = radius * Math.cos(angle);
       const newY = radius * Math.sin(angle);
-      const potentialNewitem = poissonDist.getNearesGridItem({ x: newX, y: newY }) || null;
+      const potentialNewitem =
+        poissonDist.getNearesGridItem({ x: newX, y: newY }) || null;
       if (!usedItems.has(potentialNewitem.id)) {
         item = potentialNewitem;
         usedItems.set(item.id, item);
@@ -118,56 +144,84 @@ const processBlips = (
       counter++;
     }
     // not using a 'nearest grid item' and falling back to previous random ones will allow less overlap
-    results.push({ id: uuidv4(), quadrantIndex, x: item?.x || x, y: item?.y || y });
+    results.push({
+      id: uuidv4(),
+      quadrantIndex,
+      x: item?.x || x,
+      y: item?.y || y
+    });
   });
 
   return results;
 };
 
-const getHorizons = (rawBlipData: (RawBlipType | BlipType)[], horizonKey: HorizonKey): HorizonKey[] => {
+const getHorizons = (
+  rawBlipData: (RawBlipType | BlipType)[],
+  horizonKey: HorizonKey
+): HorizonKey[] => {
   const newHorizons: HorizonKey[] = [];
   rawBlipData.forEach((val) => {
-    if (!newHorizons.includes(val[horizonKey])) newHorizons.push(val[horizonKey]);
+    if (!newHorizons.includes(val[horizonKey]))
+      newHorizons.push(val[horizonKey]);
   });
   return newHorizons;
 };
 
-const getQuadrants = (rawBlipData: (RawBlipType | BlipType)[], quadrantKey: QuadrantKey): QuadrantKey[] => {
+const getQuadrants = (
+  rawBlipData: (RawBlipType | BlipType)[],
+  quadrantKey: QuadrantKey
+): QuadrantKey[] => {
   const newQuadrants: QuadrantKey[] = [];
   rawBlipData.forEach((val) => {
-    if (!newQuadrants.includes(val[quadrantKey] as QuadrantKey)) newQuadrants.push(val[quadrantKey] as QuadrantKey);
+    if (!newQuadrants.includes(val[quadrantKey] as QuadrantKey))
+      newQuadrants.push(val[quadrantKey] as QuadrantKey);
   });
   return newQuadrants;
 };
 
-const getUseCases = (rawBlipData: BlipType[], useCaseKey: UseCaseKey): SelectableItem[] => {
+const getUseCases = (
+  rawBlipData: BlipType[],
+  useCaseKey: UseCaseKey
+): SelectableItem[] => {
   const newUseCases: Map<string, SelectableItem> = new Map();
   rawBlipData.forEach((val) => {
     if (val[useCaseKey] !== '' && !newUseCases.has(val[useCaseKey]))
       newUseCases.set(val[useCaseKey], {
         uuid: uuidv4(),
-        name: val[useCaseKey],
+        name: val[useCaseKey]
       } as SelectableItem);
   });
   return Array.from(newUseCases.values());
 };
 
-const getDisasterTypes = (rawBlipData: BlipType[], disasterTypeKey: DisasterTypeKey): SelectableItem[] => {
+const getDisasterTypes = (
+  rawBlipData: BlipType[],
+  disasterTypeKey: DisasterTypeKey
+): SelectableItem[] => {
   const newDisterTypes: Map<string, SelectableItem> = new Map();
   rawBlipData.forEach((val) => {
-    if (val[disasterTypeKey] !== '' && !newDisterTypes.has(val[disasterTypeKey]))
+    if (
+      val[disasterTypeKey] !== '' &&
+      !newDisterTypes.has(val[disasterTypeKey])
+    )
       newDisterTypes.set(val[disasterTypeKey], {
         uuid: uuidv4(),
-        name: val[disasterTypeKey],
+        name: val[disasterTypeKey]
       } as SelectableItem);
   });
   return Array.from(newDisterTypes.values());
 };
 
-const orderHorizons = (a: HorizonKey, b: HorizonKey, horizonPriorityOrder: PriorityOrderType): number =>
-  horizonPriorityOrder[a] - horizonPriorityOrder[b];
-const orderQuadrants = (a: QuadrantKey, b: QuadrantKey, quadrantPriorityOrder: PriorityOrderType): number =>
-  quadrantPriorityOrder[a] - quadrantPriorityOrder[b];
+const orderHorizons = (
+  a: HorizonKey,
+  b: HorizonKey,
+  horizonPriorityOrder: PriorityOrderType
+): number => horizonPriorityOrder[a] - horizonPriorityOrder[b];
+const orderQuadrants = (
+  a: QuadrantKey,
+  b: QuadrantKey,
+  quadrantPriorityOrder: PriorityOrderType
+): number => quadrantPriorityOrder[a] - quadrantPriorityOrder[b];
 
 const getRadarData = (
   rawBlips: RawBlipType[],
@@ -183,9 +237,13 @@ const getRadarData = (
 ): RadarDataBlipsAndLogic => {
   const radarData: RadarOptionsType = {
     ...passedRadarData,
-    horizons: getHorizons(rawBlips, keys.horizonKey).sort((a, b) => orderHorizons(a, b, priorityOrders.horizon)),
-    quadrants: getQuadrants(rawBlips, keys.quadrantKey).sort((a, b) => orderQuadrants(a, b, priorityOrders.quadrant)),
-    tech: getTechnologies(rawBlips, keys.techKey),
+    horizons: getHorizons(rawBlips, keys.horizonKey).sort((a, b) =>
+      orderHorizons(a, b, priorityOrders.horizon)
+    ),
+    quadrants: getQuadrants(rawBlips, keys.quadrantKey).sort((a, b) =>
+      orderQuadrants(a, b, priorityOrders.quadrant)
+    ),
+    tech: getTechnologies(rawBlips, keys.techKey)
   };
   return {
     radarData,
@@ -193,12 +251,13 @@ const getRadarData = (
     logic: {
       setHoveredItem: () => {},
       setSelectedItem: () => {},
-      setSelectedQuadrant: () => {},
-    },
+      setSelectedQuadrant: () => {}
+    }
   };
 };
 
-const capitalize = (d: string): string => d.charAt(0).toUpperCase() + d.slice(1);
+const capitalize = (d: string): string =>
+  d.charAt(0).toUpperCase() + d.slice(1);
 
 const filterBlips = (
   blips: BlipType[],
@@ -207,13 +266,22 @@ const filterBlips = (
   disasterTypeFilter = 'all'
 ): BlipType[] => {
   let filtered = blips;
-  if (useCaseFilter !== 'all') filtered = filtered.filter((i) => i[keys.useCaseKey] === useCaseFilter);
-  if (disasterTypeFilter !== 'all') filtered = filtered.filter((i) => i[keys.disasterTypeKey] === disasterTypeFilter);
+  if (useCaseFilter !== 'all')
+    filtered = filtered.filter((i) => i[keys.useCaseKey] === useCaseFilter);
+  if (disasterTypeFilter !== 'all')
+    filtered = filtered.filter(
+      (i) => i[keys.disasterTypeKey] === disasterTypeFilter
+    );
   return filtered;
 };
 
 // QUADRANTS
-const drawArcs: (h: QuadsType, horizonUnit: number, horizonShiftRadius?: number, scaleFactor?: number) => string | null = (
+const drawArcs: (
+  h: QuadsType,
+  horizonUnit: number,
+  horizonShiftRadius?: number,
+  scaleFactor?: number
+) => string | null = (
   h,
   horizonUnit,
   horizonShiftRadius = 0,
@@ -221,8 +289,14 @@ const drawArcs: (h: QuadsType, horizonUnit: number, horizonShiftRadius?: number,
 ) =>
   d3
     .arc<QuadsType>()
-    .outerRadius((d) => ((d.horizon + 1) * horizonUnit + horizonShiftRadius) * scaleFactor)
-    .innerRadius((d) => (d.horizon * horizonUnit + (d.horizon === 0 ? 0 : horizonShiftRadius)) * scaleFactor)
+    .outerRadius(
+      (d) => ((d.horizon + 1) * horizonUnit + horizonShiftRadius) * scaleFactor
+    )
+    .innerRadius(
+      (d) =>
+        (d.horizon * horizonUnit + (d.horizon === 0 ? 0 : horizonShiftRadius)) *
+        scaleFactor
+    )
     .startAngle((d) => d.quadrant * (Math.PI / 2))
     .endAngle((d) => d.quadrant * (Math.PI / 2) + Math.PI / 2)(h) || null;
 
@@ -231,7 +305,9 @@ const thisColorScale = d3.scaleOrdinal(d3.schemePastel2);
 const fillArcs = (d: QuadsType, horizons: unknown[]): RgbOut => {
   const quadrantInput = d.label;
   const brighter = (d.horizon / horizons.length) * 0.7;
-  const result = d3.rgb(thisColorScale(quadrantInput.toString())).brighter(brighter);
+  const result = d3
+    .rgb(thisColorScale(quadrantInput.toString()))
+    .brighter(brighter);
   return result as unknown as RgbOut;
 };
 
@@ -296,6 +372,6 @@ export const RadarUtilities = {
     fillArcs,
     getY,
     getX,
-    getLabelAnchor,
-  },
+    getLabelAnchor
+  }
 };

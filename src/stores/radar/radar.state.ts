@@ -1,6 +1,13 @@
 import { AnyAction, ProcessAction, StoreModule } from 'kiss-react-state';
 
-import { BaseCSVType, BlipType, MappingType, QuadrantKey, RadarOptionsType, RawBlipType } from '../../types';
+import {
+  BaseCSVType,
+  BlipType,
+  MappingType,
+  QuadrantKey,
+  RadarOptionsType,
+  RawBlipType
+} from '../../types';
 import { CSVManager, getCSVFileFromUrl } from '../../services/CSVManager';
 import { Utilities } from '../../helpers/Utilities';
 
@@ -16,7 +23,7 @@ export enum ActionType {
   SET_HOVERED_ITEM = 'RADAR/SET_HOVERED_ITEM',
   SET_HOVERED_TECH = 'RADAR/SET_HOVERED_TECH',
   SET_SELECTED_QUADRANT = 'RADAR/SET_SELECTED_QUADRANT',
-  RESET = 'RADAR/RESET',
+  RESET = 'RADAR/RESET'
 }
 
 export interface RadarState {
@@ -43,9 +50,9 @@ export const radarModule = new StoreModule<ActionType, RadarState>('', {
     radarOptions: {
       horizonShiftRadius: 0,
       radiusPadding: 0,
-      circlePadding: 0,
+      circlePadding: 0
     },
-    tech: [],
+    tech: []
   },
   rawBlips: [],
   blips: [],
@@ -56,82 +63,119 @@ export const radarModule = new StoreModule<ActionType, RadarState>('', {
   selectedItem: null,
   hoveredItem: null,
   hoveredTech: null,
-  selectedQuadrant: null,
+  selectedQuadrant: null
 });
 
 /**
  * Exportable Actions
  */
-const setBlips = radarModule.setPayloadAction<BlipType[]>(ActionType.SET_BLIPS, (state, action) => ({
-  ...state,
-  blips: action.payload,
-}));
+const setBlips = radarModule.setPayloadAction<BlipType[]>(
+  ActionType.SET_BLIPS,
+  (state, action) => ({
+    ...state,
+    blips: action.payload
+  })
+);
 
-const setRawBlips = radarModule.setPayloadAction<RawBlipType[]>(ActionType.SET_RAW_BLIPS, (state, action) => ({
-  ...state,
-  rawBlips: action.payload,
-}));
+const setRawBlips = radarModule.setPayloadAction<RawBlipType[]>(
+  ActionType.SET_RAW_BLIPS,
+  (state, action) => ({
+    ...state,
+    rawBlips: action.payload
+  })
+);
 
-const setRadarData = radarModule.setPayloadAction<RadarOptionsType>(ActionType.SET_RADAR_DATA, (state, action) => ({
-  ...state,
-  radarData: action.payload,
-}));
+const setRadarData = radarModule.setPayloadAction<RadarOptionsType>(
+  ActionType.SET_RADAR_DATA,
+  (state, action) => ({
+    ...state,
+    radarData: action.payload
+  })
+);
 
-const setIsFilter = radarModule.setPayloadAction<boolean>(ActionType.SET_IS_FILTER, (state, action) => ({
-  ...state,
-  isFiltered: action.payload,
-}));
+const setIsFilter = radarModule.setPayloadAction<boolean>(
+  ActionType.SET_IS_FILTER,
+  (state, action) => ({
+    ...state,
+    isFiltered: action.payload
+  })
+);
 
-const setUseCaseFilter = radarModule.setPayloadAction<string>(ActionType.SET_USE_CASE_FILTER, (state, action) => ({
-  ...state,
-  useCaseFilter: action.payload,
-}));
+const setUseCaseFilter = radarModule.setPayloadAction<string>(
+  ActionType.SET_USE_CASE_FILTER,
+  (state, action) => ({
+    ...state,
+    useCaseFilter: action.payload
+  })
+);
 
-const setDisasterTypeFilter = radarModule.setPayloadAction<string>(ActionType.SET_DISASTER_TYPE_FILTER, (state, action) => ({
-  ...state,
-  disasterTypeFilter: action.payload,
-}));
+const setDisasterTypeFilter = radarModule.setPayloadAction<string>(
+  ActionType.SET_DISASTER_TYPE_FILTER,
+  (state, action) => ({
+    ...state,
+    disasterTypeFilter: action.payload
+  })
+);
 
-const setTechFilter = radarModule.setPayloadAction<string | null>(ActionType.SET_TECH_FILTER, (state, action) => ({
-  ...state,
-  techFilter: action.payload,
-}));
+const setTechFilter = radarModule.setPayloadAction<string | null>(
+  ActionType.SET_TECH_FILTER,
+  (state, action) => ({
+    ...state,
+    techFilter: action.payload
+  })
+);
 
-const setSelectedItem = radarModule.setPayloadAction<BlipType | null>(ActionType.SET_SELECTED_ITEM, (state, action) => ({
-  ...state,
-  selectedItem: action.payload,
-}));
+const setSelectedItem = radarModule.setPayloadAction<BlipType | null>(
+  ActionType.SET_SELECTED_ITEM,
+  (state, action) => ({
+    ...state,
+    selectedItem: action.payload
+  })
+);
 
-const setHoveredItem = radarModule.setPayloadAction<BlipType | null>(ActionType.SET_HOVERED_ITEM, (state, action) => ({
-  ...state,
-  hoveredItem: action.payload,
-}));
+const setHoveredItem = radarModule.setPayloadAction<BlipType | null>(
+  ActionType.SET_HOVERED_ITEM,
+  (state, action) => ({
+    ...state,
+    hoveredItem: action.payload
+  })
+);
 
-const setHoveredTech = radarModule.setPayloadAction<string | null>(ActionType.SET_HOVERED_TECH, (state, action) => ({
-  ...state,
-  hoveredTech: action.payload,
-}));
+const setHoveredTech = radarModule.setPayloadAction<string | null>(
+  ActionType.SET_HOVERED_TECH,
+  (state, action) => ({
+    ...state,
+    hoveredTech: action.payload
+  })
+);
 
 const setSelectedQuadrant = radarModule.setPayloadAction<QuadrantKey | null>(
   ActionType.SET_SELECTED_QUADRANT,
   (state, action) => ({ ...state, selectedQuadrant: action.payload })
 );
 
-const reset = radarModule.setSimpleAction(ActionType.RESET, () => radarModule.initialState);
+const reset = radarModule.setSimpleAction(
+  ActionType.RESET,
+  () => radarModule.initialState
+);
 
 /**
  * Thunks
  */
 type RadarThunks<R> = ProcessAction<R, RadarState, null, AnyAction>;
 
-type FetchRadarDataThunk = (content: string, mapping: MappingType<RawBlipType>) => RadarThunks<void>;
-const fetchRadarBlips: FetchRadarDataThunk = (content, mapping) => async (dispatch) => {
-  const radarCSV = await getCSVFileFromUrl(content);
-  const rawBlips = new CSVManager(radarCSV).processCSV<BaseCSVType>();
-  const cleanedRawBlips = Utilities.cleanRawBlips(rawBlips, mapping);
-  setRawBlips(cleanedRawBlips);
-  dispatch(setRawBlips(cleanedRawBlips));
-};
+type FetchRadarDataThunk = (
+  content: string,
+  mapping: MappingType<RawBlipType>
+) => RadarThunks<void>;
+const fetchRadarBlips: FetchRadarDataThunk =
+  (content, mapping) => async (dispatch) => {
+    const radarCSV = await getCSVFileFromUrl(content);
+    const rawBlips = new CSVManager(radarCSV).processCSV<BaseCSVType>();
+    const cleanedRawBlips = Utilities.cleanRawBlips(rawBlips, mapping);
+    setRawBlips(cleanedRawBlips);
+    dispatch(setRawBlips(cleanedRawBlips));
+  };
 
 export const actions = {
   setBlips,
@@ -147,5 +191,5 @@ export const actions = {
   setSelectedQuadrant,
   reset,
   // testAsync,
-  fetchRadarBlips,
+  fetchRadarBlips
 };

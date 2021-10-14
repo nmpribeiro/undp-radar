@@ -11,15 +11,17 @@ const useRadarState = radarModule.useContext(
     setRadarData: actions.setRadarData,
     setHoveredItem: actions.setHoveredItem,
     setSelectedItem: actions.setSelectedItem,
-    setSelectedQuadrant: actions.setSelectedQuadrant,
+    setSelectedQuadrant: actions.setSelectedQuadrant
   },
   {
-    fetchRadarBlips: actions.fetchRadarBlips,
+    fetchRadarBlips: actions.fetchRadarBlips
   }
 );
 
 const RadarProvider: React.FC = ({ children }) => (
-  <CountContext.Provider value={radarModule.getMemoValueHook()()}>{children}</CountContext.Provider>
+  <CountContext.Provider value={radarModule.getMemoValueHook()()}>
+    {children}
+  </CountContext.Provider>
 );
 
 export { RadarProvider, useRadarState };

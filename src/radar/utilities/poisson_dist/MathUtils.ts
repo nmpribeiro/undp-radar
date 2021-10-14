@@ -1,7 +1,9 @@
 /* eslint-disable no-plusplus */
-const randBetween = (min: number, max: number): number => Math.random() * (max - min + 1) + min;
+const randBetween = (min: number, max: number): number =>
+  Math.random() * (max - min + 1) + min;
 
-const randIntBetween = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
+const randIntBetween = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 // min and max included
 const random = (max: number): number => randBetween(0, max);
@@ -32,5 +34,5 @@ export const MathUtils = {
   randBetween,
   randIntBetween,
 
-  randomUnitVector,
+  randomUnitVector
 };

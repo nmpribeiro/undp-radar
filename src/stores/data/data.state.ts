@@ -1,5 +1,13 @@
 import { StoreModule } from 'kiss-react-state';
-import { DisasterTypeKey, HorizonKey, PriorityOrderType, QuadrantKey, TechKey, TitleKey, UseCaseKey } from '../../types';
+import {
+  DisasterTypeKey,
+  HorizonKey,
+  PriorityOrderType,
+  QuadrantKey,
+  TechKey,
+  TitleKey,
+  UseCaseKey
+} from '../../types';
 
 export interface DataState {
   keys: {
@@ -18,12 +26,22 @@ export interface DataState {
 
 export enum ActionType {
   SET_TECH_KEY = 'SET_TECH_KEY',
-  RESET = 'RESET',
+  RESET = 'RESET'
 }
 
 // TODO: setters for these
-const horizonPriorityOrder: Record<HorizonKey, number> = { production: 1, validation: 2, prototype: 3, idea: 4 };
-const quadrantPriorityOrder: Record<QuadrantKey, number> = { response: 1, recovery: 2, resilience: 3, preparedness: 4 };
+const horizonPriorityOrder: Record<HorizonKey, number> = {
+  production: 1,
+  validation: 2,
+  prototype: 3,
+  idea: 4
+};
+const quadrantPriorityOrder: Record<QuadrantKey, number> = {
+  response: 1,
+  recovery: 2,
+  resilience: 3,
+  preparedness: 4
+};
 
 const HORIZONS_KEY = 'Status/Maturity';
 const QUADRANT_KEY = 'Disaster Cycle';
@@ -39,23 +57,29 @@ export const dataState = new StoreModule<ActionType, DataState>('', {
     disasterTypeKey: DISASTER_TYPE_KEY,
     titleKey: TITLE_KEY,
     quadrantKey: QUADRANT_KEY,
-    horizonKey: HORIZONS_KEY,
+    horizonKey: HORIZONS_KEY
   },
   priorityOrders: {
     horizon: horizonPriorityOrder,
-    quadrant: quadrantPriorityOrder,
-  },
+    quadrant: quadrantPriorityOrder
+  }
 });
 
 /**
  * Exportable Actions
  */
-const setTechKey = dataState.setPayloadAction<TechKey>(ActionType.SET_TECH_KEY, (state, action) => ({
-  ...state,
-  techKey: action.payload,
-}));
+const setTechKey = dataState.setPayloadAction<TechKey>(
+  ActionType.SET_TECH_KEY,
+  (state, action) => ({
+    ...state,
+    techKey: action.payload
+  })
+);
 
-const reset = dataState.setSimpleAction(ActionType.RESET, () => dataState.initialState);
+const reset = dataState.setSimpleAction(
+  ActionType.RESET,
+  () => dataState.initialState
+);
 
 // /**
 //  * Thunks
@@ -72,6 +96,6 @@ export const actions = {
   setTechKey,
   // increment,
   // decrement,
-  reset,
+  reset
   // testAsync,
 };

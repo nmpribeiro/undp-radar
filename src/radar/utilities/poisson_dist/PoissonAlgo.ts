@@ -86,7 +86,11 @@ export class PoissonAlgo {
             const col = Math.floor(sample.x / this.w);
             const row = Math.floor(sample.y / this.w);
 
-            if (col < this.cols && row < this.rows && !this.grid[col + row * this.cols]) {
+            if (
+              col < this.cols &&
+              row < this.rows &&
+              !this.grid[col + row * this.cols]
+            ) {
               let ok = true;
               for (let i = -1; i <= 1; i++) {
                 for (let j = -1; j <= 1; j++) {

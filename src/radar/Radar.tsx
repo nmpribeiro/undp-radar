@@ -16,7 +16,7 @@ export const Radar: React.FC = () => {
     setSelectedQuadrant
   } = useRadarState();
   return (
-    <>
+    <React.Fragment>
       <Title label={DEFAULT_TITLE} />
       <div style={{ padding: 10 }}>
         <RadarSVG
@@ -28,6 +28,6 @@ export const Radar: React.FC = () => {
           }}
         />
       </div>
-    </>
+    </React.Fragment>
   );
 };
