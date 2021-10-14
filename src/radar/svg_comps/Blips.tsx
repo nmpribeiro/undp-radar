@@ -9,7 +9,6 @@ import { BlipType, QuadrantKey, TechItemType } from '../../types';
 import { RadarUtilities } from '../RadarUtilities';
 
 import { RawBlip } from './RawBlip';
-import { Utilities } from '../../helpers/Utilities';
 
 interface Props {
   quadrant?: QuadrantKey | null;
@@ -92,10 +91,19 @@ export const Blips: React.FC<Props> = ({
 
     if ((!hoveredItem && techFilter !== 'all') || hoveredItem?.id === blip.id) {
       if (allItemTechs.length > 0) {
+        if (techFilter && !hoveredItem && !hoveredTech) {
+          const foundTech = allItemTechs.find(
+            (item) => item.slug === techFilter
+          );
+          if (foundTech) return [foundTech];
+          else return [grey];
+        }
+
+        if (hoveredTech === null) return allItemTechs;
+
         const itemHoveredTech = allItemTechs.find(
           (techItem) => hoveredTech === techItem.slug
         );
-        if (hoveredTech === null) return allItemTechs;
 
         if (itemHoveredTech) {
           return [
@@ -105,6 +113,9 @@ export const Blips: React.FC<Props> = ({
         }
       }
     }
+
+    if (allItemTechs.length > 0 && !techFilter && !hoveredItem && !hoveredTech)
+      return allItemTechs;
 
     return [grey];
   };

@@ -56,16 +56,14 @@ export const RawBlip: React.FC<{
           .html(`<h4>${blip[titleKey]}</h4>`)
           .style('left', `${event.pageX + 15}px`)
           .style('top', `${event.pageY - 10}px`);
-        event.currentTarget.setAttribute('opacity', '0.5');
       }}
       onMouseMove={(event) =>
         tooltip
           .style('left', `${event.pageX + 15}px`)
           .style('top', `${event.pageY - 10}px`)
       }
-      onMouseOut={(event) => {
+      onMouseOut={() => {
         closeTooltip();
-        event.currentTarget.setAttribute('opacity', '1');
       }}
       onMouseEnter={() => setHoveredItem(blip)}
       onMouseUp={() => {

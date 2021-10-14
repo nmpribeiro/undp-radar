@@ -40,7 +40,18 @@ const checkItemHasTechFromMultiple = (
 const capitalize = (d: string): string =>
   d.charAt(0).toUpperCase() + d.slice(1);
 
+const deepEqual = (x: Record<string, any>, y: Record<string, any>): boolean => {
+  const ok = Object.keys,
+    tx = typeof x,
+    ty = typeof y;
+  return x && y && tx === 'object' && tx === ty
+    ? ok(x).length === ok(y).length &&
+        ok(x).every((key) => deepEqual(x[key], y[key]))
+    : x === y;
+};
+
 export const Utilities = {
+  deepEqual,
   capitalize,
   createSlug,
   cleanRawBlips,
