@@ -7,7 +7,7 @@
   "repository": "nmpribeiro/undp-radar",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
-  "source": "src/index.tsx",
+  "source": "src/index.ts",
   "engines": {
     "node": ">=10"
   },
@@ -24,12 +24,18 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "d3": "^7.1.1",
+    "kiss-react-state": "^0.0.4",
+    "ts-request-builder": "^0.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/d3": "^7.0.0",
+    "@types/uuid": "^8.3.1",
     "@types/jest": "^25.1.4",
     "@types/node": "^12.12.38",
     "@types/react": "^16.9.27",
@@ -55,9 +61,17 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "node-sass": "^6.0.1",
+    "sass": "^1.42.1"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "d3": "^7.1.1",
+    "kiss-react-state": "^0.0.4",
+    "ts-request-builder": "^0.0.1",
+    "uuid": "^8.3.2"
+  }
 }
