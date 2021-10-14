@@ -4,6 +4,7 @@ import { AddCSV, DataProvider, RadarProvider, Utilities } from 'undp-radar';
 import 'undp-radar/dist/index.css';
 
 import csvData2 from './assets/technology_radar_dataset_updated.csv';
+import { RadarApp } from './radar/RadarApp';
 
 const App = () => {
   return (
@@ -31,7 +32,7 @@ const App = () => {
           } as any)
         }
       />
-      {/* <RadarApp /> */}
+      <RadarApp />
     </div>
   );
 };

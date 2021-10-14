@@ -18,16 +18,16 @@ export const RadarApp: React.FC = () => {
   const selectedQuadrant = null;
   const selectedItem = null;
   return (
-    <div className="App">
+    <div className='App'>
       {!selectedQuadrant && !selectedItem && (
         <Layout>
           <LeftColumn>
             <Switch>
-              <Route exact path="/" component={TechList} />
+              <Route exact path='/' component={TechList} />
             </Switch>
 
             <Switch>
-              <Route exact path="/" component={Filter} />
+              <Route exact path='/' component={Filter} />
             </Switch>
           </LeftColumn>
 
