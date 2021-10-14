@@ -6,7 +6,11 @@ interface Props {
   children?: (item: string) => React.ReactNode;
 }
 
-export const UnorderedList: React.FC<Props> = ({ children, array, itemStyle }) => {
+export const UnorderedList: React.FC<Props> = ({
+  children,
+  array,
+  itemStyle
+}) => {
   return (
     <ul
       style={{
@@ -15,11 +19,14 @@ export const UnorderedList: React.FC<Props> = ({ children, array, itemStyle }) =
         listStyle: 'none',
         marginBlockStart: 0,
         marginInlineStart: 0,
-        paddingInlineStart: 0,
+        paddingInlineStart: 0
       }}
     >
       {array.map((item) => (
-        <li key={item} style={itemStyle instanceof Function ? itemStyle(item) : itemStyle}>
+        <li
+          key={item}
+          style={itemStyle instanceof Function ? itemStyle(item) : itemStyle}
+        >
           {children && children(item)}
           {!children && item}
         </li>

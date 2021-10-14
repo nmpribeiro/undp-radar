@@ -32,7 +32,11 @@ const checkItemHasTechFromMultiple = (
   return sluggedTechs.includes(tech);
 };
 
+const capitalize = (d: string): string =>
+  d.charAt(0).toUpperCase() + d.slice(1);
+
 export const Utilities = {
+  capitalize,
   createSlug,
   cleanRawBlips,
   cleanupStringArray,

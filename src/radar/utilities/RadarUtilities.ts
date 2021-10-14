@@ -259,9 +259,6 @@ const getRadarData = (
   };
 };
 
-const capitalize = (d: string): string =>
-  d.charAt(0).toUpperCase() + d.slice(1);
-
 const filterBlips = (
   blips: BlipType[],
   keys: { useCaseKey: UseCaseKey; disasterTypeKey: DisasterTypeKey },
@@ -368,7 +365,6 @@ export const RadarUtilities = {
   getUseCases,
   getDisasterTypes,
   getRadarData,
-  capitalize,
   filterBlips,
   quadrants: {
     drawArcs,

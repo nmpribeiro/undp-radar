@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 import React from 'react';
 
+import { Utilities } from '../../helpers/Utilities';
 import { RadarUtilities } from '../utilities/RadarUtilities';
 import { QuadrantKey, QuadsType, RadarDataBlipsAndLogic } from '../../types';
 
@@ -120,7 +121,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
                 dy={getTextY()}
                 style={{ fontSize: quadrant ? 14 : 10 }}
               >
-                {RadarUtilities.capitalize(horizons[h.horizon])}
+                {Utilities.capitalize(horizons[h.horizon])}
               </text>
               {/* TODO: remove path stroke and add lines to be consistent */}
               <path
@@ -181,7 +182,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
               textAnchor={RadarUtilities.quadrants.getLabelAnchor(q)}
               onMouseUp={() => context.logic.setSelectedQuadrant(q.label)}
             >
-              {RadarUtilities.capitalize(q.label)}
+              {Utilities.capitalize(q.label)}
             </text>
           ))}
 
@@ -230,7 +231,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
             dy={10}
             style={{ fontSize: quadrant ? 14 : 10 }}
           >
-            {RadarUtilities.capitalize(h)}
+            {Utilities.capitalize(h)}
           </text>
         ))}
       </g>
