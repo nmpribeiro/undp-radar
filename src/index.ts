@@ -3,11 +3,12 @@ import { Utilities } from './helpers/Utilities';
 import { Radar } from './radar/Radar';
 import { QuadrantRadar } from './radar/QuadrantRadar';
 // Generation and setup
-import { RadarDataGenerator } from './radar/RadarDataGenerator';
-import { AddCSV } from './stores/AddCSV';
-import { SetData } from './stores/SetData';
+import { RadarDataGenerator, AddCSV, SetData } from './services';
 // Components
+import { Filter } from './components/filter/Filter';
+import { DataLists } from './components/lists/DataLists';
 import { SelectionState } from './components/shared/SelectionState';
+import { TechList, TechOrBlipDescription } from './components/tech';
 // Stores
 import { DataProvider, useDataState } from './stores/DataProvider';
 import { RadarProvider, useRadarState } from './stores/RadarProvider';
@@ -23,5 +24,10 @@ export {
   SetData,
   RadarDataGenerator,
   SelectionState,
-  QuadrantRadar
+  QuadrantRadar,
+  DataLists,
+  Filter,
+  // components > tech
+  TechList,
+  TechOrBlipDescription
 };

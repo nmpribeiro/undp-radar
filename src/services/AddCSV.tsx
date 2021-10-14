@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { MappingType, RawBlipType } from '../types';
 
-import { useRadarState } from './RadarProvider';
+import { useRadarState } from '../stores/RadarProvider';
 
 interface Props {
   csvFile: string;

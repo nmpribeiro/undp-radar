@@ -9,9 +9,13 @@ const useRadarState = radarModule.useContext(
     reset: actions.reset,
     setBlips: actions.setBlips,
     setRadarData: actions.setRadarData,
+    setTechFilter: actions.setTechFilter,
+    setHoveredTech: actions.setHoveredTech,
     setHoveredItem: actions.setHoveredItem,
     setSelectedItem: actions.setSelectedItem,
-    setSelectedQuadrant: actions.setSelectedQuadrant
+    setUseCaseFilter: actions.setUseCaseFilter,
+    setSelectedQuadrant: actions.setSelectedQuadrant,
+    setDisasterTypeFilter: actions.setDisasterTypeFilter
   },
   {
     fetchRadarBlips: actions.fetchRadarBlips

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { KeysObject, RadarOptionsType } from '../types';
 
-import { useDataState } from './DataProvider';
+import { useDataState } from '../stores/DataProvider';
 
 interface Props {
   keys: KeysObject;

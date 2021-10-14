@@ -16,7 +16,6 @@ import { RadarApp } from './radar/RadarApp';
 const App = () => {
   return (
     <div>
-      FOO
       <RadarProvider>
         <DataProvider>
           <SetData

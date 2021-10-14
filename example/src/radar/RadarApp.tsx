@@ -1,6 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Radar, SelectionState } from 'undp-radar';
+import {
+  Radar,
+  SelectionState,
+  DataLists,
+  TechList,
+  Filter,
+  TechOrBlipDescription
+} from 'undp-radar';
 
 import { Layout } from '../layout/Layout';
 import { LeftColumn } from '../layout/LeftColumn';
@@ -8,11 +15,7 @@ import { RightColumn } from '../layout/RightColumn';
 import { CenterColumn } from '../layout/CenterColumn';
 import { QuadrantPage } from '../components/quadrant/QuadrantPage';
 
-const Filter = () => <div>Filter</div>;
-const TechList = () => <div>TechList</div>;
 const BlipPage = () => <div>BlipPage</div>;
-const DataLists = () => <div>DataLists</div>;
-const TechOrBlipDescription = () => <div>TechOrBlipDescription</div>;
 
 export const RadarApp: React.FC = () => (
   <SelectionState>
