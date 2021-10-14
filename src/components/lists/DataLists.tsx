@@ -102,7 +102,8 @@ export const DataLists: React.FC = () => {
       disasterTypeFilter,
       techFilter,
       hoveredItem,
-      hoveredTech
+      hoveredTech,
+      selectedQuadrant
     },
     setHoveredItem,
     setSelectedItem
@@ -114,17 +115,31 @@ export const DataLists: React.FC = () => {
   const [myBlips, setMyBlips] = useState<BlipType[]>([]);
 
   useEffect(() => {
-    setMyBlips(
-      RadarUtilities.filterBlips(blips, keys, useCaseFilter, disasterTypeFilter)
+    let newBlips = RadarUtilities.filterBlips(
+      blips,
+      keys,
+      useCaseFilter,
+      disasterTypeFilter
     );
-  }, [blips, useCaseFilter, disasterTypeFilter]);
+    if (selectedQuadrant) {
+      newBlips = newBlips.filter(
+        (blip) => blip[keys.quadrantKey] === selectedQuadrant
+      );
+    }
+    setMyBlips(newBlips);
+  }, [blips, selectedQuadrant, useCaseFilter, disasterTypeFilter]);
 
   useEffect(() => {
     if (blips && blips.length > 0) {
       const newHeaders: ListMatrixItem[] = [];
-      RadarUtilities.getQuadrants(blips, keys.quadrantKey).forEach((header) =>
-        newHeaders.push({ uuid: uuidv4(), name: header })
-      );
+      RadarUtilities.getQuadrants(blips, keys.quadrantKey).forEach((header) => {
+        if (
+          !selectedQuadrant ||
+          (selectedQuadrant && selectedQuadrant === header)
+        ) {
+          newHeaders.push({ uuid: uuidv4(), name: header });
+        }
+      });
       const newHorizons: ListMatrixItem[] = [];
       RadarUtilities.getHorizons(blips, keys.horizonKey).forEach((horizon) =>
         newHorizons.push({ uuid: uuidv4(), name: horizon })
@@ -132,7 +147,7 @@ export const DataLists: React.FC = () => {
       setHeaders(newHeaders);
       setHorizons(newHorizons);
     }
-  }, [blips]);
+  }, [blips, selectedQuadrant]);
 
   const setSelectedItemLogic = (item: BlipType) => {
     setSelectedItem(item);

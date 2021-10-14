@@ -1,5 +1,12 @@
 import React from 'react';
-import { SelectionState, Utilities, QuadrantRadar } from 'undp-radar';
+import {
+  SelectionState,
+  Utilities,
+  QuadrantRadar,
+  TechList,
+  Filter,
+  DataLists
+} from 'undp-radar';
 
 import { CenterColumn } from '../../layout/CenterColumn';
 import { Layout } from '../../layout/Layout';
@@ -30,14 +37,8 @@ export const QuadrantPage: React.FC = () => (
                   <span style={{ fontSize: 30 }}>&#10094;</span>
                 </button>
               </div>
-              {/* <Switch>
-              <Route exact path="/" component={TechList} />
-            </Switch>
-
-            <Switch>
-              <Route exact path="/" component={Filter} />
-            </Switch> */}
-              <p>Todo: put list of items based on level of implementation</p>
+              <TechList />
+              <Filter />
             </LeftColumn>
 
             <CenterColumn>
@@ -48,7 +49,9 @@ export const QuadrantPage: React.FC = () => (
               {/* <TechOrBlipDescription /> */}
             </CenterColumn>
 
-            <RightColumn>{/* <DataLists /> */}</RightColumn>
+            <RightColumn>
+              <DataLists />
+            </RightColumn>
           </Layout>
         )}
       </div>
