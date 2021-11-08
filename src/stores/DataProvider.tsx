@@ -6,15 +6,13 @@ const CountContext = dataState.getContext();
 const useDataState = dataState.useContext(
   CountContext,
   {
-    // increment: () => increment(1),
-    // decrement: () => decrement(1),
-    // reset,
-    reset: () => actions.reset()
+    setHorizonPriorityOrder: actions.setHorizonPriorityOrder,
+    setQuadrantPriorityOrder: actions.setQuadrantPriorityOrder,
+    reset: actions.reset
   },
   {
     setKeys: actions.setKeys,
     setRadarConf: actions.setRadarConf
-    // testAsync: () => testAsync(10),
   }
 );
 

@@ -7,20 +7,38 @@ import { useDataState } from '../stores/DataProvider';
 interface Props {
   keys: KeysObject;
   radarConf?: Partial<RadarOptionsType>;
+  horizonOrder?: string[];
+  quadrantOrder?: string[];
 }
 
-export const SetData: React.FC<Props> = ({ keys, radarConf }) => {
-  const { setKeys, setRadarConf } = useDataState();
+export const SetData: React.FC<Props> = ({
+  keys,
+  radarConf,
+  horizonOrder,
+  quadrantOrder
+}) => {
+  const {
+    setKeys,
+    setRadarConf,
+    setHorizonPriorityOrder,
+    setQuadrantPriorityOrder
+  } = useDataState();
 
   useEffect(() => {
-    // console.log('settings keys: ', keys);
     setKeys(keys);
   }, [keys]);
 
   useEffect(() => {
-    // console.log('setting radarConf: ', radarConf);
     if (radarConf) setRadarConf(radarConf);
   }, [radarConf]);
+
+  useEffect(() => {
+    if (horizonOrder) setHorizonPriorityOrder(horizonOrder);
+  }, [horizonOrder]);
+
+  useEffect(() => {
+    if (quadrantOrder) setQuadrantPriorityOrder(quadrantOrder);
+  }, [quadrantOrder]);
 
   return <React.Fragment />;
 };
