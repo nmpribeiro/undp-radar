@@ -22,7 +22,7 @@ export const TechItem: React.FC<{
   setHoveredTech,
   hoveredItem
 }) => {
-  const selectTech = () => setTechFilter(tech.slug);
+  const selectTech = (): void => setTechFilter(tech.slug);
 
   const [backgroundColor, setBackgroundColor] = useState<string | undefined>(
     undefined
@@ -47,11 +47,11 @@ export const TechItem: React.FC<{
     );
   }, [tech, selected, hoveredItem, hoveredTech]);
 
-  const changeBackgroundEnter = () => {
+  const changeBackgroundEnter = (): void => {
     setHoveredTech(tech.slug);
     setBackgroundColor(selected ? tech.color : tech.color);
   };
-  const changeBackgroundLeave = () => {
+  const changeBackgroundLeave = (): void => {
     setHoveredTech(null);
     setBackgroundColor(selected ? tech.color : undefined);
   };

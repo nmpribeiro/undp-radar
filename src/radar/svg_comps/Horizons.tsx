@@ -36,7 +36,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
 
   const quadrantIndex =
     quadrant && context.radarData.quadrants.indexOf(quadrant);
-  const getX = () => {
+  const getX = (): number => {
     switch (quadrantIndex) {
       case 0:
         return -context.radarData.width / 3.25;
@@ -51,7 +51,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
     }
   };
 
-  const getY = () => {
+  const getY = (): number => {
     switch (quadrantIndex) {
       case 0:
         return context.radarData.height / 2.5;
@@ -66,7 +66,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
     }
   };
 
-  const getTextX = (i: number) => {
+  const getTextX = (i: number): number => {
     switch (quadrantIndex) {
       case 0:
       case 1:
@@ -90,7 +90,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
     }
   };
 
-  const getTextY = () => {
+  const getTextY = (): number => {
     switch (quadrantIndex) {
       case 0:
         return 20;
@@ -180,7 +180,7 @@ export const Horizons: React.FC<Props> = ({ quadrant, context }) => {
               dx={RadarUtilities.quadrants.getX(q, height)}
               dy={RadarUtilities.quadrants.getY(q, width)}
               textAnchor={RadarUtilities.quadrants.getLabelAnchor(q)}
-              onMouseUp={() => context.logic.setSelectedQuadrant(q.label)}
+              onMouseUp={(): void => context.logic.setSelectedQuadrant(q.label)}
             >
               {Utilities.capitalize(q.label)}
             </text>

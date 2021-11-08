@@ -40,6 +40,7 @@ const checkItemHasTechFromMultiple = (
 const capitalize = (d: string): string =>
   d.charAt(0).toUpperCase() + d.slice(1);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deepEqual = (x: Record<string, any>, y: Record<string, any>): boolean => {
   const ok = Object.keys,
     tx = typeof x,

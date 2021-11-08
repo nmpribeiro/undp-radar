@@ -43,7 +43,7 @@ export const RawFilter: React.FC = () => {
   const onUseCaseChange: ChangeEventHandler<HTMLSelectElement> = (e) =>
     setSelectedUserCase(e.target.value);
 
-  const onFilterHnalder = () => {
+  const onFilterHnalder = (): void => {
     // selected?
     setUseCaseFilter(selectedUserCase);
     setDisasterTypeFilter(selectedDisasterType);
