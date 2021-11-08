@@ -7,8 +7,8 @@ export type QuadsType = {
 };
 
 export type PriorityType = {
-  horizon: PriorityOrderType;
-  quadrant: PriorityOrderType;
+  horizon: string[];
+  quadrant: string[];
 };
 
 export type KeysObject = {

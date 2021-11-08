@@ -27,6 +27,19 @@ const App = () => {
               useCaseKey: 'Use Case',
               disasterTypeKey: ''
             }}
+            horizonOrder={[
+              'Production',
+              'Validation',
+              'Prototype',
+              'Idea',
+              'test' // won't be used
+            ]}
+            quadrantOrder={[
+              'Response',
+              'Recovery',
+              'Resilience',
+              'Preparedness'
+            ]}
           />
           <RadarDataGenerator />
           <AddCSV

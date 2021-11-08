@@ -21,6 +21,7 @@
     "react-dom": "link:../node_modules/react-dom",
     "react-router-dom": "^5.3.0",
     "react-scripts": "link:../node_modules/react-scripts",
+    "eslint-config-react-app": "6.0.0",
     "typescript": "link:../node_modules/typescript",
     "undp-radar": "link:.."
   },

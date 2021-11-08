@@ -31,7 +31,9 @@ export const TechList: React.FC = () => {
 
   const [tech, setTech] = useState<TechItemType[]>([]);
 
-  const resetTech = () => setTechFilter(null);
+  const resetTech = (): void => {
+    setTechFilter(null);
+  };
 
   useEffect(() => {
     if (blips.length > 0) {

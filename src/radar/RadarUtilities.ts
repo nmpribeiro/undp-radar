@@ -11,7 +11,6 @@ import {
   BlipType,
   DisasterTypeKey,
   HorizonKey,
-  PriorityOrderType,
   QuadrantKey,
   QuadsType,
   RadarDataBlipsAndLogic,
@@ -213,16 +212,12 @@ const getDisasterTypes = (
   return Array.from(newDisterTypes.values());
 };
 
-const orderHorizons = (
-  a: HorizonKey,
-  b: HorizonKey,
-  horizonPriorityOrder: PriorityOrderType
-): number => horizonPriorityOrder[a] - horizonPriorityOrder[b];
-const orderQuadrants = (
-  a: QuadrantKey,
-  b: QuadrantKey,
-  quadrantPriorityOrder: PriorityOrderType
-): number => quadrantPriorityOrder[a] - quadrantPriorityOrder[b];
+const order = (a: string, b: string, order: string[]): number => {
+  if (order.indexOf(a.toLowerCase()) < order.indexOf(b.toLowerCase()))
+    return -1;
+  if (order.indexOf(a.toLowerCase()) > order.indexOf(b.toLowerCase())) return 1;
+  return 0;
+};
 
 const getRadarData = (
   rawBlips: RawBlipType[],
@@ -234,16 +229,15 @@ const getRadarData = (
     disasterTypeKey: DisasterTypeKey;
     techKey: TechKey;
   },
-  priorityOrders: { horizon: PriorityOrderType; quadrant: PriorityOrderType }
+  priorityOrders: { horizon: string[]; quadrant: string[] }
 ): RadarDataBlipsAndLogic => {
+  const { horizon, quadrant } = priorityOrders;
+  const sortHorizon = (a: string, b: string) => order(a, b, horizon);
+  const sortQuadrant = (a: string, b: string) => order(a, b, quadrant);
   const radarData: RadarOptionsType = {
     ...passedRadarData,
-    horizons: getHorizons(rawBlips, keys.horizonKey).sort((a, b) =>
-      orderHorizons(a, b, priorityOrders.horizon)
-    ),
-    quadrants: getQuadrants(rawBlips, keys.quadrantKey).sort((a, b) =>
-      orderQuadrants(a, b, priorityOrders.quadrant)
-    ),
+    horizons: getHorizons(rawBlips, keys.horizonKey).sort(sortHorizon),
+    quadrants: getQuadrants(rawBlips, keys.quadrantKey).sort(sortQuadrant),
     tech: getTechnologies(rawBlips, keys.techKey)
   };
   return {

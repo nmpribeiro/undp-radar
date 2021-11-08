@@ -29,22 +29,23 @@ export enum ActionType {
   SET_PRIORITY_HORIZON_ORDER = 'SET_PRIORITY_HORIZON_ORDER',
   SET_PRIORITY_QUADRANT_ORDER = 'SET_PRIORITY_QUADRANT_ORDER',
   SET_RADAR_OPTIONS = 'SET_RADAR_OPTIONS',
+
   RESET = 'RESET'
 }
 
 // TODO: setters for these
-const horizonPriorityOrder: Record<HorizonKey, number> = {
-  production: 1,
-  validation: 2,
-  prototype: 3,
-  idea: 4
-};
-const quadrantPriorityOrder: Record<QuadrantKey, number> = {
-  response: 1,
-  recovery: 2,
-  resilience: 3,
-  preparedness: 4
-};
+const horizonPriorityOrder: string[] = [
+  'production',
+  'validation',
+  'prototype',
+  'idea'
+];
+const quadrantPriorityOrder: string[] = [
+  'response',
+  'recovery',
+  'resilience',
+  'preparedness'
+];
 
 const HORIZONS_KEY = 'Status/Maturity';
 const QUADRANT_KEY = 'Disaster Cycle';
@@ -72,6 +73,28 @@ export const dataState = new StoreModule<ActionType, DataState>('', {
 /**
  * Exportable Actions
  */
+const setHorizonPriorityOrder = dataState.setPayloadAction<string[]>(
+  ActionType.SET_PRIORITY_HORIZON_ORDER,
+  (state, action) => ({
+    ...state,
+    priorityOrders: {
+      ...state.priorityOrders,
+      horizon: action.payload.map((v) => v.toLowerCase()) // make it consistent
+    }
+  })
+);
+
+const setQuadrantPriorityOrder = dataState.setPayloadAction<string[]>(
+  ActionType.SET_PRIORITY_QUADRANT_ORDER,
+  (state, action) => ({
+    ...state,
+    priorityOrders: {
+      ...state.priorityOrders,
+      quadrant: action.payload.map((v) => v.toLowerCase()) // make it consistent
+    }
+  })
+);
+
 const setRadarOptions = dataState.setPayloadAction<Partial<RadarOptionsType>>(
   ActionType.SET_RADAR_OPTIONS,
   (state, action) => ({
@@ -150,9 +173,9 @@ const reset = dataState.setSimpleAction(
   () => dataState.initialState
 );
 
-// /**
-//  * Thunks
-//  */
+/**
+ * Thunks
+ */
 type DataProcess<R> = ProcessAction<R, DataState, null, AnyAction>;
 
 type SetKeysProcess = (keys: Partial<KeysObject>) => DataProcess<void>;
@@ -180,15 +203,11 @@ const setRadarConf: SetRadarConfProcess = (conf) => (dispatch) =>
   dispatch(setRadarOptions(conf));
 
 export const actions = {
-  // setTechKey,
-  // setTitleKey,
-  // setHorizonKey,
-  // setQuadrantKey,
-  // setUseCaseKey,
-  // setDisasterTypeKey,
-
   setKeys,
   setRadarConf,
+
+  setHorizonPriorityOrder,
+  setQuadrantPriorityOrder,
+
   reset
-  // testAsync,
 };

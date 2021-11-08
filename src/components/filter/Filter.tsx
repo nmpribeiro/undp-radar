@@ -9,7 +9,7 @@ import './Filter.scss';
 export const Filter: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
 
-  const onFilterToggle = () => setCollapsed(!collapsed);
+  const onFilterToggle = (): void => setCollapsed(!collapsed);
 
   return (
     <div className={'wrapper'}>
